@@ -1,0 +1,31 @@
+body > #root > div {
+  height: 100vh;
+}
+
+.home-page {
+  height: 100%;
+  width: 100%;
+  background-image: url("../assets//metadata/thumb-1920-1039414.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.colection {
+  height: 50px;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: maroon;
+  border-radius: 5px;
+  cursor: pointer;
+  span {
+    font-size: 18px;
+    font-weight: 500;
+    color: wheat;
+  }
+}
