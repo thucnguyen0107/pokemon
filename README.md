@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 ## as
-In the project directory, you can run:  you cab run
+In the project directory, you can run: ----2222
 
 ### `npm start` 
 
