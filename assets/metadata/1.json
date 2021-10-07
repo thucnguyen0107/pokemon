@@ -1,0 +1,11 @@
+{
+    "name": "Frog",
+    "description": "Nope",
+    "image": "1.jpeg",
+    "attributes": [
+        {
+            "strait_type": "class a",
+            "value": "1000"
+        }
+    ]
+}
