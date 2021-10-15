@@ -17,8 +17,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      {!minted ? (
-        <button
+      {/* {!minted ? (
+        <button className="ml-2"
           onClick={() => {
             mint();
           }}
@@ -27,7 +27,7 @@ const Dashboard = () => {
         </button>
       ) : (
         <span>Created</span>
-      )}
+      )} */}
       
     </div>
   );

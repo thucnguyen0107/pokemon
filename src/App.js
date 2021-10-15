@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import "./scss/style.scss";
+
 // import './scss/fonts/font-awesome.min.css';
 const loading = (
   <div className="pt-3 text-center">

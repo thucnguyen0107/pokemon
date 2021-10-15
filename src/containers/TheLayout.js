@@ -20,21 +20,15 @@ const TheLayout = () => {
       spinner
     >
       <div className="c-app c-default-layout">
-        <Route
-          key="dashboard"
-          path="/dashboard"
-          exact
-          name="dashboard"
-          render={(props) => <Dashboard />}
-        />
-        {/* <TheSidebar/>
-          <div className="c-wrapper">
-            <TheHeader/>
-            <div className="c-body">
-              <TheContent/>
-            </div>
-            <TheFooter/>
-          </div> */}
+        <div className="c-wrapper">
+          <TheHeader />
+          <div className="break-line"></div>
+          <div className="c-body">
+            <TheContent />
+          </div>
+          {/* <TheFooter /> */}
+        </div>
+        {/* </div> */}
       </div>
     </LoadingOverlay>
   );
