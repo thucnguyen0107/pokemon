@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mintToken } from "../../helpers/CommonHelper";
-
+import Pokemons from "../pokemons/Pokemons";
 const Dashboard = () => {
   const [minted, setMinted] = useState(false);
 
@@ -29,7 +29,8 @@ const Dashboard = () => {
       ) : (
         <span>Created</span>
       )} */}
-      Content here
+      {/* Content here */}
+      <Pokemons />
     </div>
   );
 };

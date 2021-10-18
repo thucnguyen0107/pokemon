@@ -20,7 +20,7 @@ const TheLayout = () => {
         <div className="c-wrapper">
           <TheHeader />
           <div className="break-line"></div>
-          <div className="c-body">
+          <div className="c-body content-body">
             <TheContent />
           </div>
           <div className="break-line"></div>
