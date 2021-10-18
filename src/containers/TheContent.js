@@ -25,11 +25,9 @@ const TheContent = () => {
                     exact={route.exact}
                     name={route.name}
                     render={(props) => (
-                      // <CFade><
-                      <div>
+                      <CFade>
                         <route.component {...props} />
-                      </div>
-                      // </CFade>
+                      </CFade>
                     )}
                   />
                 )

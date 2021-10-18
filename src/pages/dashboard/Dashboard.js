@@ -16,9 +16,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="content-app">
       {/* {!minted ? (
-        <button className="ml-2"
+        <button
+          className="ml-2"
           onClick={() => {
             mint();
           }}
@@ -28,7 +29,7 @@ const Dashboard = () => {
       ) : (
         <span>Created</span>
       )} */}
-      
+      Content here
     </div>
   );
 };

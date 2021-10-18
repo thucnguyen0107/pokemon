@@ -1,36 +1,18 @@
 import React from "react";
 import {
   CHeader,
-  CContainer,
-  CHeaderBrand,
   CHeaderNav,
-  CHeaderNavItem,
-  CHeaderNavLink,
-  CSubheader,
-  CBreadcrumbRouter,
   CLink,
-  // CHeaderToggler,
-  CCollapse,
   CNavItem,
   CNavLink,
   CDropdown,
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-  CDropdownDivider,
-  CForm,
-  CFormInput,
-  CButton,
-  CToggler,
-  CImg,
   CNav,
   CRow,
   CCol,
-  CFormGroup,
 } from "@coreui/react";
-import HeaderDropdown from "./HeaderDropdown";
-// routes config
-import routes from "../routes";
 
 const TheHeader = () => {
   return (
@@ -63,7 +45,9 @@ const TheHeader = () => {
                 </CDropdown>
               </CNavItem>
               <CNavItem>
-                <CNavLink className="start-btn" href="#">Start</CNavLink>
+                <CNavLink className="start-btn" href="#">
+                  Start
+                </CNavLink>
               </CNavItem>
             </CNav>
           </CHeaderNav>
@@ -73,4 +57,4 @@ const TheHeader = () => {
   );
 };
 
-export default TheHeader;
+export default React.memo(TheHeader);

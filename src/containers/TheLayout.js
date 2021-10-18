@@ -1,10 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { TheContent, TheSidebar, TheFooter, TheHeader } from "./index";
+import { TheContent, TheFooter, TheHeader } from "./index";
 import LoadingOverlay from "react-loading-overlay";
-import { Redirect, Route, Switch } from "react-router-dom";
-// import { useSelector } from "react-redux";
-const Dashboard = React.lazy(() => import("../pages/dashboard/Dashboard"));
 
 const TheLayout = () => {
   const history = useHistory();
@@ -26,9 +23,9 @@ const TheLayout = () => {
           <div className="c-body">
             <TheContent />
           </div>
-          {/* <TheFooter /> */}
+          <div className="break-line"></div>
+          <TheFooter />
         </div>
-        {/* </div> */}
       </div>
     </LoadingOverlay>
   );
