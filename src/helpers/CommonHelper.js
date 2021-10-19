@@ -51,3 +51,37 @@ export const mintToken = async () => {
 export const getNetWorkId = web3.eth.getBalance(
   "0x9E8a6Da8f1740d18a3eAf2DDCe1f58d29f7c43C8"
 );
+
+export const getOwnerOf = async (tokenId) => {
+  if (!isInitialized) {
+    await init();
+  }
+
+  return nftContract.methods.ownerOf(tokenId).call();
+};
+
+export const getBalanceOf = async (owner) => {
+  if (!isInitialized) {
+    await init();
+  }
+
+  return nftContract.methods.balanceOf(owner).call();
+};
+
+
+export async function getConfirmations(txHash) {
+  try {
+    // Get transaction details
+    const trx = await web3.eth.getTransaction(txHash)
+
+    // Get current block number
+    const currentBlock = await web3.eth.getBlockNumber()
+
+    // When transaction is unconfirmed, its block number is null.
+    // In this case we return 0 as number of confirmations
+    return trx.blockNumber === null ? 0 : currentBlock - trx.blockNumber
+  }
+  catch (error) {
+    console.log(error)
+  }
+}

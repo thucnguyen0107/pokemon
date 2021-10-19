@@ -27,7 +27,7 @@ const TheHeader = () => {
             </div>
             <div className="connect-btn"></div>
             <div className="ml-3">
-              <span>Connected wallet: MetaMask</span>
+              <span className="special-card-txt">Connected wallet: MetaMask</span>
             </div>
           </div>
         </CCol>
