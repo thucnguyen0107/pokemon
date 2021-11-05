@@ -1,0 +1,19 @@
+{
+  "name": "#1",
+  "description": "Nope #1",
+  "image": "ipfs://QmZtQ1s39JL69K6CtS1Du8ys5HPShqCfAUXyeKC3x3Ythj/1.jpeg",
+  "attributes": [
+    {
+      "strait_type": "Sex",
+      "value": "Male"
+    },
+    {
+      "trait_type": "Personality",
+      "value": "Sad"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Black"
+    }
+  ]
+}

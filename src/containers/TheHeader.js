@@ -13,8 +13,15 @@ import {
   CRow,
   CCol,
 } from "@coreui/react";
+import { useHistory } from "react-router";
 
 const TheHeader = () => {
+  const history = useHistory();
+  async function disconnect() {
+    await window.solana.disconnect();
+    localStorage.removeItem("accessToken");
+    history.push('/home')
+  }
   return (
     <CHeader withSubheader className="app-header">
       <CRow>
@@ -27,7 +34,7 @@ const TheHeader = () => {
             </div>
             <div className="connect-btn"></div>
             <div className="ml-3">
-              <span className="special-card-txt">Connected wallet: MetaMask</span>
+              <span className="special-card-txt">Connected wallet</span>
             </div>
           </div>
         </CCol>
@@ -47,6 +54,17 @@ const TheHeader = () => {
               <CNavItem>
                 <CNavLink className="start-btn" href="#">
                   Start
+                </CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink
+                  onClick={() => {
+                    disconnect();
+                  }}
+                  className="start-btn"
+                  href="#"
+                >
+                  Disconnect
                 </CNavLink>
               </CNavItem>
             </CNav>

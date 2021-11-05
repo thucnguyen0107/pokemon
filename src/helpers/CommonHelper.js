@@ -1,5 +1,7 @@
 import Web3 from "web3";
 import pokemonApi from "../contracts/pokemonAbi.json";
+import axios from "axios";
+
 let selectedAccount;
 
 const providerUrl = Web3.givenProvider;
@@ -68,20 +70,36 @@ export const getBalanceOf = async (owner) => {
   return nftContract.methods.balanceOf(owner).call();
 };
 
-
 export async function getConfirmations(txHash) {
   try {
     // Get transaction details
-    const trx = await web3.eth.getTransaction(txHash)
+    const trx = await web3.eth.getTransaction(txHash);
 
     // Get current block number
-    const currentBlock = await web3.eth.getBlockNumber()
+    const currentBlock = await web3.eth.getBlockNumber();
 
     // When transaction is unconfirmed, its block number is null.
     // In this case we return 0 as number of confirmations
-    return trx.blockNumber === null ? 0 : currentBlock - trx.blockNumber
-  }
-  catch (error) {
-    console.log(error)
+    return trx.blockNumber === null ? 0 : currentBlock - trx.blockNumber;
+  } catch (error) {
+    console.log(error);
   }
 }
+
+export const getTokenURI = async () => {
+  const nft = await nftContract.methods.tokenURI("3").call();
+  console.log(nft);
+  const config = {
+    method: "get",
+    url: "",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    crossDomain: true,
+  };
+  let res = await axios(config);
+
+  let data = res.data;
+  console.log(data);
+};

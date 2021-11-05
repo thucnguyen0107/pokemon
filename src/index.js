@@ -13,9 +13,11 @@ function getLibrary(provider) {
 }
 
 ReactDOM.render(
-  <Web3ReactProvider getLibrary={getLibrary}>
+  // <Web3ReactProvider getLibrary={getLibrary}>
+  <>
     <App />
-  </Web3ReactProvider>,
+  </>,
+  // </Web3ReactProvider>,
   document.getElementById("root")
 );
 

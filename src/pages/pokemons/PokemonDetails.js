@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { getBalanceOf, getOwnerOf } from "../../helpers/CommonHelper";
+import {
+  getBalanceOf,
+  getOwnerOf,
+  getTKD,
+  getTokenURI,
+} from "../../helpers/CommonHelper";
+
 import { CButton } from "@coreui/react";
 const PokemonDetails = () => {
   const history = useHistory();
@@ -17,6 +23,20 @@ const PokemonDetails = () => {
           .catch((err) => {
             console.log(err);
           });
+        // getTKD(res)
+        //   .then((ccc) => {
+        //     console.log(ccc);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+        getTokenURI(res)
+          .then((ccc1) => {
+            console.log(ccc1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         console.log(res);
       })
       .catch((err) => {
@@ -28,7 +48,7 @@ const PokemonDetails = () => {
       <strong>Pokemon details</strong>
       <div className="pokemon-details">
         <img
-          src="../assets/1.jpeg"
+          src="https://ipfs.io/ipfs/QmZtQ1s39JL69K6CtS1Du8ys5HPShqCfAUXyeKC3x3Ythj"
           title="pokemon image"
           alt="no comment"
           className="pokemon-img-details"
