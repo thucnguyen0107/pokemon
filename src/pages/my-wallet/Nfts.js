@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
-import { run } from "../../helpers/CommonForSolana";
+import {
+  getSlot,
+  getSolanaWeb3,
+  transfer,
+} from "../../helpers/CommonForSolana";
 const Pokemons = () => {
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState(1);
   const handleRedirectToDetaisl = () => {
     history.push(`/pokemon/${1}`);
+  };
+
+  window.onload = () => {
+    getSolanaWeb3();
+    getSlot();
   };
   return (
     <div>
@@ -66,7 +75,7 @@ const Pokemons = () => {
           md="4"
           className="hover-box"
           onClick={() => {
-            run();
+            transfer();
           }}
         >
           <div className="pokemon-item">
