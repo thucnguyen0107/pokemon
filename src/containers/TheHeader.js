@@ -22,6 +22,10 @@ const TheHeader = () => {
     localStorage.removeItem("accessToken");
     history.push('/home')
   }
+
+  const goToAccount = () => {
+    history.push('/account')
+  }
   return (
     <CHeader withSubheader className="app-header">
       <CRow>
@@ -52,7 +56,7 @@ const TheHeader = () => {
                 </CDropdown>
               </CNavItem>
               <CNavItem>
-                <CNavLink className="start-btn" href="#">
+                <CNavLink className="start-btn" href="#" onClick={goToAccount}>
                   Start
                 </CNavLink>
               </CNavItem>

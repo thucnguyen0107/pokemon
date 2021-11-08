@@ -8,6 +8,8 @@
     "@coreui/react": "^3.4.6",
     "@metaplex/js": "^3.4.0",
     "@solana/web3.js": "^1.30.2",
+    "@solana/spl-token": "^0.1.8",
+    "@solana/wallet-adapter-react": "^0.13.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
