@@ -4,6 +4,7 @@ const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"));
 const PokemonDetails = React.lazy(() =>
   import("./pages/pokemons/PokemonDetails")
 );
+const AccountInfo = React.lazy(() => import("./pages/account/accountInfo"));
 
 const routes = [
   { path: "/", exact: true, name: "Pokemon" },
@@ -12,6 +13,11 @@ const routes = [
     path: "/pokemon/:id",
     name: "details",
     component: PokemonDetails,
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: AccountInfo,
   },
 ];
 

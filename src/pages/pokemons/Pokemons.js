@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
+
+
 const Pokemons = () => {
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState(1);
+
   const handleRedirectToDetaisl = () => {
     history.push(`/pokemon/${1}`);
   };
+
+
+
   return (
     <div>
       <CRow className="mb-4 mt-3 ">
