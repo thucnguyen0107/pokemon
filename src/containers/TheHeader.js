@@ -20,12 +20,16 @@ const TheHeader = () => {
   async function disconnect() {
     await window.solana.disconnect();
     localStorage.removeItem("accessToken");
-    history.push('/home')
+    history.push("/home");
   }
 
   const goToAccount = () => {
-    history.push('/account')
-  }
+    history.push("/account");
+  };
+
+  const goToWallet = () => {
+    history.push("/wallet");
+  };
   return (
     <CHeader withSubheader className="app-header">
       <CRow>
@@ -58,6 +62,11 @@ const TheHeader = () => {
               <CNavItem>
                 <CNavLink className="start-btn" href="#" onClick={goToAccount}>
                   Start
+                </CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink className="start-btn" href="#" onClick={goToWallet}>
+                  My Wallet
                 </CNavLink>
               </CNavItem>
               <CNavItem>
