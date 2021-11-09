@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
+import { run } from "../../helpers/CommonForSolana";
 
 
 const Pokemons = () => {
@@ -67,7 +68,13 @@ const Pokemons = () => {
           </div>
         </CCol>
 
-        <CCol md="4" className="hover-box">
+        <CCol
+          md="4"
+          className="hover-box"
+          onClick={() => {
+            run();
+          }}
+        >
           <div className="pokemon-item">
             <div className="d-flex justify-content-between">
               <strong>Harriet</strong>

@@ -6,6 +6,7 @@ const PokemonDetails = React.lazy(() =>
 );
 const AccountInfo = React.lazy(() => import("./pages/account/accountInfo"));
 
+const Nfts = React.lazy(() => import("./pages/my-wallet/Nfts"));
 const routes = [
   { path: "/", exact: true, name: "Pokemon" },
   { path: "/dashboard", name: "Trang chủ", component: Dashboard },
@@ -18,6 +19,11 @@ const routes = [
     path: "/account",
     name: "account",
     component: AccountInfo,
+  },
+  {
+    path: "/wallet",
+    name: "wallet",
+    component: Nfts,
   },
 ];
 
