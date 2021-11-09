@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as web3 from '@solana/web3.js';
 import * as splToken from '@solana/spl-token';
+import classes from './accountInfo.module.scss'
 
 
 const AccountInfo = () => {
@@ -101,25 +102,6 @@ const AccountInfo = () => {
 
 
   // ------------------
-//   const minOneToken = async()=>{
-
-//     //create new token mint
-//     let mint = await splToken.Token.createMint(
-//       connection,
-//       fromWallet,
-//       fromWallet.publicKey,
-//       null,
-//       9,
-//       splToken.TOKEN_PROGRAM_ID,
-//     );
-
-//       //get the token account of the fromWallet Solana address, if it does not exist, create it
-//   let fromTokenAccount = await mint.getOrCreateAssociatedAccountInfo(
-//     fromWallet.publicKey,
-//   );
-
-
-// }
 
 const mintingTest = async () => {
   const phantomProvider = await getProvider();
@@ -239,25 +221,38 @@ const mintingTest = async () => {
 
   return (
     <>
-      <div>Account Info</div>
-      <div>Current Coint: {walletInfo?.lamports / web3.LAMPORTS_PER_SOL} SOL</div>
+    <div className={classes.container}>
+      <h3>Account Info</h3>
+      <div>Current Coin: {walletInfo ? walletInfo?.lamports / web3.LAMPORTS_PER_SOL : 0} SOL</div>
 
+      <hr></hr>
+      <h3>Transfer Coin</h3>
       <div>
-        <input placeholder={"To address"} name="toWallet" onChange={onChangeInput} />
+        <input
+        placeholder={"To address"}
+        name="toWallet" onChange={onChangeInput}
+        className={classes.inputStyle}
+        />
       </div>
       <div>
-        <input placeholder={"Quantity"} name="quantity" onChange={onChangeInput} />
+        <input
+        placeholder={"Quantity"}
+        name="quantity"
+        onChange={onChangeInput}
+        className={classes.inputStyle}
+        />
       </div>
       {isComplete && <div>Transaction successfully!</div>}
-      <button style={{ width: 50, height: 25, color: 'black' }} onClick={transferSOL}>
-        Gửi
+      <button className={classes.btnStyle} onClick={transferSOL}>
+        Send
       </button>
 
-      <div>Min token</div>
-      <button style={{ width: 50, height: 25, color: 'black' }} onClick={mintingTest}>
-        Gửi
+      <hr></hr>
+      <h3>Mint token</h3>
+      <button className={classes.btnStyle} onClick={mintingTest}>
+        Mint
       </button>
-
+      </div>
     </>
   )
 }
