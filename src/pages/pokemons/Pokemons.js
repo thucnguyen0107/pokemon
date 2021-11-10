@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
-import { run } from "../../helpers/CommonForSolana";
-
+import { transferCoin } from "../../helpers/CommonForSolana";
 
 const Pokemons = () => {
   const history = useHistory();
@@ -11,8 +10,6 @@ const Pokemons = () => {
   const handleRedirectToDetaisl = () => {
     history.push(`/pokemon/${1}`);
   };
-
-
 
   return (
     <div>
@@ -72,7 +69,7 @@ const Pokemons = () => {
           md="4"
           className="hover-box"
           onClick={() => {
-            run();
+            transferCoin();
           }}
         >
           <div className="pokemon-item">
