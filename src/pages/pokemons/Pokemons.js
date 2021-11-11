@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
-import { transferCoin } from "../../helpers/CommonForSolana";
+import { transferCoin, transferCoin2 } from "../../helpers/CommonForSolana";
 
 const Pokemons = () => {
   const history = useHistory();
