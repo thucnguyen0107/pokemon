@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CCol, CPagination, CRow, CImg } from "@coreui/react";
+import { CCol, CPagination, CRow, CImg, CButton } from "@coreui/react";
 import { useHistory } from "react-router";
 import { getNftsFromWallet } from "../../helpers/CommonForSolana";
 import axios from "axios";
@@ -10,7 +10,6 @@ const Pokemons = () => {
   const handleRedirectToDetaisl = () => {
     history.push(`/pokemon/${1}`);
   };
-
   const [list, setList] = useState([]);
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -57,6 +56,8 @@ const Pokemons = () => {
   return (
     <div>
       <CRow className="mb-4 mt-3 ">
+        <CButton class="btn btn-primary" 
+         onClick={() => history.push("/wallet/withdraw")}>Withdraw</CButton>
         {list.map((meta, key) => {
           return (
             <CCol md="4" className="hover-box" key={key}>
