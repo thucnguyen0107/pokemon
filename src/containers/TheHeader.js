@@ -30,6 +30,11 @@ const TheHeader = () => {
   const goToWallet = () => {
     history.push("/wallet");
   };
+
+  const goToDepositFiat = () => {
+    history.push("/deposit-fiat");
+  };
+
   return (
     <CHeader withSubheader className="app-header">
       <CRow>
@@ -60,13 +65,18 @@ const TheHeader = () => {
                 </CDropdown>
               </CNavItem>
               <CNavItem>
-                <CNavLink className="start-btn" href="#" onClick={goToAccount}>
+                <CNavLink href="#" onClick={goToAccount}>
                   Start
                 </CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink className="start-btn" href="#" onClick={goToWallet}>
+                <CNavLink href="#" onClick={goToWallet}>
                   My Wallet
+                </CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink href="#" onClick={goToDepositFiat}>
+                    Deposit Fiat
                 </CNavLink>
               </CNavItem>
               <CNavItem>

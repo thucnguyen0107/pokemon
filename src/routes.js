@@ -1,5 +1,6 @@
 import React from "react";
 
+const DepositFiat = React.lazy(() => import("./pages/deposit-fiat/DepositFiat"));
 const Dashboard = React.lazy(() => import("./pages/dashboard/Dashboard"));
 const PokemonDetails = React.lazy(() =>
   import("./pages/pokemons/PokemonDetails")
@@ -24,6 +25,11 @@ const routes = [
     path: "/wallet",
     name: "wallet",
     component: Nfts,
+  },
+  {
+    path: "/deposit-fiat",
+    name: "deposit-fiat",
+    component: DepositFiat,
   },
 ];
 

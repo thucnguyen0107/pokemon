@@ -1,0 +1,142 @@
+$border-radius-value: 2px;
+$width-child: 400px;
+
+.title {
+    margin-bottom: 50px;
+    &_content {
+        font-size: 36px;
+        color: #008000;
+    }
+}
+
+.pubkey {
+    width: 700px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    &_copy-button {
+        background-color: green;
+        color: white;
+        border-radius: 0;
+        border: 1px solid green;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        cursor: pointer;
+    }
+}
+
+.crypto-selection {
+    position: relative;
+    width: $width-child;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: $border-radius-value;
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+
+    &_child {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    &_child-left {
+        display: flex;
+        align-items: center;
+    }
+
+    &_child-right {
+        display: flex;
+        align-items: center;
+    }
+
+    &_icon {
+        display: inline-block;
+        height: 26px;
+        width: 26px;
+        img {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &_icon:last-of-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &_symbol-name {
+        display: flex;
+        align-items: center;
+        display: inline;
+    }
+
+    &_symbol {
+        text-transform: uppercase;
+        margin-left: 10px;
+        display: inline;
+    }
+
+    &_name {
+        margin-left: 8px;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.deposit-generation {
+    &_button {
+        background-color: rgba($color: #008000, $alpha: 0.9);
+        margin: 0 auto;
+        display: block;
+        border-radius: $border-radius-value;
+        border: none;
+        height: 40px;
+        margin-top: 20px;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        width: $width-child;
+        color: white;
+    }
+}
+
+.deposit-instruction {
+    width: fit-content;
+    margin: 50px auto;
+    padding: 40px 60px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-left: 3px solid #008000;
+
+    h3 {
+        text-transform: uppercase;
+        font-size: 25px;
+        font-weight: 500;
+        color: #008000;
+    }
+}
+
+.deposit {
+    &_find {
+        border-radius: $border-radius-value;
+        background-color: rgba(0, 0, 0, 0.03);
+        outline: none;
+    }
+}
+
+//custom bootstrap
+.modal-header {
+    padding: 10px;
+    .title.custom {
+        font-size: 16px;
+    }
+    .close {
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+    }
+}
