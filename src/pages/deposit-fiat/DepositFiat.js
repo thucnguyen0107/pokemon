@@ -2,10 +2,11 @@ import {
     CContainer,
     CRow,
     CCol,
-    CInputGroup,
-    CInputGroupAppend,
-    CInputGroupText,
-    CInput,
+    CToast,
+    CToastBody,
+    Cto,
+    CModal,
+    CModalBody,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { cilCaretBottom } from "@coreui/icons";
@@ -18,8 +19,11 @@ import { useState, useRef } from "react";
 import CryptoSelectionList from "./Crypto/CryptoSelectionList";
 
 function DepositFiat() {
-    let [isShowSelectionList, setIsShowSelectionList] = useState(true);
+    let [isShowSelectionList, setIsShowSelectionList] = useState(false);
     let [isShowPubKey, setIsShowPubKey] = useState(false);
+    let [pubkey, setPubKey] = useState({ address: "" });
+    let [isCopySuccess, setIsCopySuccess] = useState(false);
+    let [selectedCoin, setSelectedCoin] = useState(null);
 
     const handleShowPubKey = () => {
         setIsShowPubKey(true);
@@ -31,54 +35,53 @@ function DepositFiat() {
 
     const getProvider = async () => {
         if ("solana" in window) {
-          const provider = window.solana;
-          if (provider.isPhantom) {
-            console.log("Is Phantom installed?  ", provider.isPhantom);
-            return provider;
-          }
+            const provider = window.solana;
+            if (provider.isPhantom) {
+                console.log("Is Phantom installed?  ", provider.isPhantom);
+                return provider;
+            }
         } else {
-          window.open("https://www.phantom.app/", "_blank");
+            window.open("https://www.phantom.app/", "_blank");
         }
-      };
+    };
 
     async function len() {
         var provider = await getProvider();
-        console.log('provider', provider.publicKey.toString());
         const varP = provider.publicKey.toString();
-        setValue({
-          varie: varP
-        })
-        setIsShowPubKey(true);
-      }
-      const [value, setValue] = useState({
-        varie: '',
-      })
-      const [copySuccess, setCopySuccess] = useState('');
-      const textAreaRef = useRef(null);
-      function copyToClipboard(e) {
-        textAreaRef.current.select();
-        document.execCommand('copy');
+        setPubKey({
+            address: varP,
+        });
+        handleShowPubKey();
+    }
+    const inputRef = useRef(null);
+    function copyToClipboard(e) {
+        inputRef.current.select();
+        document.execCommand("copy");
         e.target.focus();
-        setCopySuccess('**Copied!**');
-      };
+        setIsCopySuccess(true);
+        setTimeout(() => {
+            setIsCopySuccess(false);
+        }, 3000);
+    }
 
     const generatePubKey = () => {
         return isShowPubKey ? (
             <CRow className="align-items-center justify-content-center">
                 <CCol>
-                    <CInputGroup className="pubkey">
+                    <div className="pubkey">
                         <input
-                            style={{ width: 550, height: 37, color: 'black' }}
-                            ref={textAreaRef} 
-                            value={value.varie} />
-                        <CInputGroupAppend className="pubkey-group">
-                            <CInputGroupText className="pubkey_copy-button" onClick={copyToClipboard}>
-                                Copy
-                            </CInputGroupText>
-                        </CInputGroupAppend>
-                        <CInputGroupAppend></CInputGroupAppend>
-                        {copySuccess}
-                    </CInputGroup>
+                            disabled
+                            className="pubkey_value"
+                            ref={inputRef}
+                            value={pubkey.address}
+                        />
+                        <button
+                            onClick={copyToClipboard}
+                            className="pubkey_copy-button"
+                        >
+                            Copy
+                        </button>
+                    </div>
                 </CCol>
             </CRow>
         ) : null;
@@ -156,10 +159,16 @@ function DepositFiat() {
                     <CryptoSelectionList
                         isShowable={isShowSelectionList}
                         setIsShowable={setIsShowSelectionList}
+                        setSelectedCoint={setSelectedCoin}
                     />
                 </CRow>
                 {generatePubKey()}
             </CContainer>
+            <CModal show={isCopySuccess}>
+                <CModalBody>
+                    Copied Successfully
+                </CModalBody>
+            </CModal>
         </>
     );
 }
