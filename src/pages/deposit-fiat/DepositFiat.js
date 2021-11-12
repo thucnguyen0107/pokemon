@@ -13,7 +13,7 @@ import { cilCaretBottom } from "@coreui/icons";
 import "./deposit-fiat.scss";
 import solCurrency from "../../assets/crypto-icon/sol.svg";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import CryptoSelectionList from "./Crypto/CryptoSelectionList";
 
@@ -29,23 +29,55 @@ function DepositFiat() {
         setIsShowSelectionList(true);
     };
 
+    const getProvider = async () => {
+        if ("solana" in window) {
+          const provider = window.solana;
+          if (provider.isPhantom) {
+            console.log("Is Phantom installed?  ", provider.isPhantom);
+            return provider;
+          }
+        } else {
+          window.open("https://www.phantom.app/", "_blank");
+        }
+      };
+
+    async function len() {
+        var provider = await getProvider();
+        console.log('provider', provider.publicKey.toString());
+        const varP = provider.publicKey.toString();
+        setValue({
+          varie: varP
+        })
+        setIsShowPubKey(true);
+      }
+      const [value, setValue] = useState({
+        varie: '',
+      })
+      const [copySuccess, setCopySuccess] = useState('');
+      const textAreaRef = useRef(null);
+      function copyToClipboard(e) {
+        textAreaRef.current.select();
+        document.execCommand('copy');
+        e.target.focus();
+        setCopySuccess('**Copied!**');
+      };
+
     const generatePubKey = () => {
         return isShowPubKey ? (
             <CRow className="align-items-center justify-content-center">
                 <CCol>
                     <CInputGroup className="pubkey">
-                        <CInput
-                            disabled="disabled"
-                            type="text"
-                            id="pubkey"
-                            name="pubkey"
-                        />
+                        <input
+                            style={{ width: 550, height: 37, color: 'black' }}
+                            ref={textAreaRef} 
+                            value={value.varie} />
                         <CInputGroupAppend className="pubkey-group">
-                            <CInputGroupText className="pubkey_copy-button">
+                            <CInputGroupText className="pubkey_copy-button" onClick={copyToClipboard}>
                                 Copy
                             </CInputGroupText>
                         </CInputGroupAppend>
                         <CInputGroupAppend></CInputGroupAppend>
+                        {copySuccess}
                     </CInputGroup>
                 </CCol>
             </CRow>
@@ -97,7 +129,7 @@ function DepositFiat() {
                                 <button
                                     className="deposit-generation_button"
                                     type="button"
-                                    onClick={handleShowPubKey}
+                                    onClick={len}
                                 >
                                     Deposit
                                 </button>
