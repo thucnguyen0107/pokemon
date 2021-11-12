@@ -1,11 +1,13 @@
 import { Connection, programs, Account } from "@metaplex/js";
-import { PublicKey } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { web3 } from "@project-serum/anchor";
 import { Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
-let metaplexConnection = new Connection("devnet");
-
-let con = new web3.Connection("https://explorer-api.devnet.solana.com");
+const metaplexConnection = new Connection("devnet");
+const mintTokenAddress = "9ALXCEgcDs9CgAokZEgdxCaQSxf6Jb3j3LPu9xzV81fA";
+const connection = new web3.Connection(
+  "https://explorer-api.devnet.solana.com"
+);
 
 const getProvider = async () => {
   if ("solana" in window) {
@@ -31,7 +33,9 @@ export const run = async () => {
     //getTokenAccountsByOwner
     const pub = new PublicKey("CShvXEMjAu2RgfdXXeA8NgDeFxTwgdqqvgnAhhJ1oK52");
     const pub2 = new PublicKey("5f2wbYSKT1RbywPHQ9yzqDmbw6sjARyCkSdP9uMmuwF2");
-    const getProgramAccounts = await con.getTokenAccountBalance(pub2);
+    const getProgramAccounts = await connection.getTokenAccountBalance(pub2, {
+      mint: publicKey,
+    });
     console.log(getProgramAccounts);
 
     // let acb = await new splToken.Token(
@@ -64,54 +68,6 @@ export const run = async () => {
   }
 };
 
-// export const getCandyMachineState = async (
-//   anchorWallet,
-//   candyMachineId,
-//   connection
-// ) => {
-//   const provider = await getProvider();
-
-//   const idl = await anchor.Program.fetchIdl(
-//     new anchor.web3.PublicKey("cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ"),
-//     provider
-//   );
-
-//   const program = new anchor.Program(
-//     idl,
-//     new anchor.web3.PublicKey("cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ"),
-//     provider
-//   );
-//   const candyMachine = {
-//     id: candyMachineId,
-//     connection,
-//     program,
-//   };
-
-//   const state = await program.account.candyMachine.fetch(candyMachineId);
-
-//   const itemsAvailable = state.data.itemsAvailable.toNumber();
-//   const itemsRedeemed = state.itemsRedeemed.toNumber();
-//   const itemsRemaining = itemsAvailable - itemsRedeemed;
-
-//   let goLiveDate = state.data.goLiveDate.toNumber();
-//   goLiveDate = new Date(goLiveDate * 1000);
-
-//   console.log({
-//     itemsAvailable,
-//     itemsRedeemed,
-//     itemsRemaining,
-//     goLiveDate,
-//   });
-
-//   return {
-//     candyMachine,
-//     itemsAvailable,
-//     itemsRedeemed,
-//     itemsRemaining,
-//     goLiveDate,
-//   };
-// };
-
 export const getNftsFromWallet = async (mint) => {
   const provider = await getProvider();
   const publicKey = provider.publicKey;
@@ -139,10 +95,10 @@ export const transferCoin = async () => {
   const provider = await getProvider();
   const publicKey = await provider.publicKey;
   const mintPublicKey = new PublicKey(
-    "DkzNA5JgFKiPpD6HS8FkDZ8BAhN3N8uU13TbWyxJp4wd"
+    "CShvXEMjAu2RgfdXXeA8NgDeFxTwgdqqvgnAhhJ1oK52"
   );
   const mintToken = new Token(
-    con,
+    connection,
     mintPublicKey,
     TOKEN_PROGRAM_ID,
     null // the wallet owner will pay to transfer and to create recipients associated token account if it does not yet exist.
@@ -151,9 +107,6 @@ export const transferCoin = async () => {
   const destination = new PublicKey(
     "9CMS1DaUDvXAuuJqFJGRe5zTmTmaUVfG1Uid4Yrvo3ro"
   );
-
-  // const source = new PublicKey("3iTkX1oVLx2HqaNnLJdtX1v83Z1qauMVxFPfa2QCd2z7");
-  // Airdrop some SOL to the sender's wallet, so that it can handle the txn fee
 
   let fromTokenAccount = await mintToken.getOrCreateAssociatedAccountInfo(
     publicKey
@@ -173,16 +126,26 @@ export const transferCoin = async () => {
     testTo
   );
 
+  // let associatedDestinationTokenAddr;
+  // //  Create associate Token Account
+  // try {
+  //   associatedDestinationTokenAddr = Token.getAssociatedTokenAddress(
+  //     mintToken.associatedProgramId,
+  //     mintToken.programId,
+  //     mintPublicKey,
+  //     testTo
+  //   )
+  //     .then(() => {
+  //       console.log("ababa");
+  //     })
+  //     .catch(() => {
+  //       console.log("bbbb");
+  //     });
+  // } catch (error) {
+  //   associatedDestinationTokenAddr = undefined;
+  // }
 
-
-  //  Create associate Token Account
-  // const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
-  //   mintToken.associatedProgramId,
-  //   mintToken.programId,
-  //   mintPublicKey,
-  //   testTo
-  // );
-
+  // console.log(associatedDestinationTokenAddr);
   // var transactionCreateAssociate = new web3.Transaction().add(
   //   Token.createAssociatedTokenAccountInstruction(
   //     mintToken.associatedProgramId,
@@ -219,8 +182,6 @@ export const transferCoin = async () => {
   // console.log("Signature: ", signatureCreateAssociate);
   // console.log(fromTokenAccount.address.toBase58());
 
-
-
   // Transfer own token to another Wallet
   // console.log(toTokenAccount.address.toBase58());
   // const transaction = await mintToken.transfer(
@@ -231,151 +192,204 @@ export const transferCoin = async () => {
   //   1000000
   // );
 
-
-
   // Transfer NFT to another Wallet
-  var transaction = new web3.Transaction().add(
-    Token.createTransferInstruction(
-      TOKEN_PROGRAM_ID,
-      fromTokenAccount.address,
-      fromTokentestTo.address,
-      publicKey,
-      [],
-      1
-    )
-  );
-  // Setting the variables for the transaction
-  transaction.feePayer = await provider.publicKey;
-  let blockhashObj = await con.getRecentBlockhash();
-  transaction.recentBlockhash = await blockhashObj.blockhash;
+  // var transaction = new web3.Transaction().add(
+  //   Token.createTransferInstruction(
+  //     TOKEN_PROGRAM_ID,
+  //     fromTokenAccount.address,
+  //     fromTokentestTo.address,
+  //     publicKey,
+  //     [],
+  //     1
+  //   )
+  // );
+  // // Setting the variables for the transaction
+  // transaction.feePayer = await provider.publicKey;
+  // let blockhashObj = await con.getRecentBlockhash();
+  // transaction.recentBlockhash = await blockhashObj.blockhash;
 
-  // Transaction constructor initialized successfully
-  if (transaction) {
-    console.log("Txn created successfully");
-  }
+  // // Transaction constructor initialized successfully
+  // if (transaction) {
+  //   console.log("Txn created successfully");
+  // }
 
-  // Request creator to sign the transaction (allow the transaction)
-  let signed = await provider.signTransaction(transaction);
-  // The signature is generated
-  let signature = await con.sendRawTransaction(signed.serialize());
-  // Confirm whether the transaction went through or not
-  await con.confirmTransaction(signature);
+  // // Request creator to sign the transaction (allow the transaction)
+  // let signed = await provider.signTransaction(transaction);
+  // // The signature is generated
+  // let signature = await con.sendRawTransaction(signed.serialize());
+  // // Confirm whether the transaction went through or not
+  // await con.confirmTransaction(signature);
 
-  //Signature chhap diya idhar
-  console.log("Signature: ", signature);
+  // //Signature chhap diya idhar
+  // console.log("Signature: ", signature);
 };
 
-export const transferCoin2 = async () => {
+export const buyNFT = async (
+  nftMintAddress,
+  fromSeller // Địa chỉ ví thằng bán NFT và nhận tiền
+) => {
   const provider = await getProvider();
   const publicKey = await provider.publicKey;
-  const mintPublicKey = new PublicKey(
-    "9ALXCEgcDs9CgAokZEgdxCaQSxf6Jb3j3LPu9xzV81fA"
-  );
+  const mintPublicKey = new PublicKey(mintTokenAddress);
   const mintToken = new Token(
-    con,
+    connection,
     mintPublicKey,
     TOKEN_PROGRAM_ID,
     null // the wallet owner will pay to transfer and to create recipients associated token account if it does not yet exist.
   );
 
-  const nftPublicKey = new PublicKey(
-    "DkzNA5JgFKiPpD6HS8FkDZ8BAhN3N8uU13TbWyxJp4wd"
-  );
-
-  const mintNft = new Token(
-    con,
-    nftPublicKey,
-    TOKEN_PROGRAM_ID,
-    null // the wallet owner will pay to transfer and to create recipients associated token account if it does not yet exist.
-  );
-
   const destination = new PublicKey(
-    "FRsSE4uMSeTM8SA3iejeWWriYsdc2QnMEGuNT7ewAeQ4"
+    fromSeller // Ví thằng bán NFT và nhận tiền
   );
-
-  // const source = new PublicKey("3iTkX1oVLx2HqaNnLJdtX1v83Z1qauMVxFPfa2QCd2z7");
-  // Airdrop some SOL to the sender's wallet, so that it can handle the txn fee
 
   let fromTokenAccount = await mintToken.getOrCreateAssociatedAccountInfo(
     publicKey
   );
 
-  // getting or creating (if doens't exist) the token address in the toWallet address
-  // toWallet is the creator: the og mintRequester
-  // toTokenAmount is essentially the account *inside* the mintRequester's (creator's) wallet that will be able to handle the new token that we just minted
   let toTokenAccount = await mintToken.getOrCreateAssociatedAccountInfo(
     destination
   );
 
-  let fromTokenAccountNft = await mintNft.getOrCreateAssociatedAccountInfo(
-    publicKey
-  );
-
-  // getting or creating (if doens't exist) the token address in the toWallet address
-  // toWallet is the creator: the og mintRequester
-  // toTokenAmount is essentially the account *inside* the mintRequester's (creator's) wallet that will be able to handle the new token that we just minted
-  let toTokenAccountNft = await mintNft.getOrCreateAssociatedAccountInfo(
-    destination
-  );
-
-  // let toAuthor = new PublicKey('3iTkX1oVLx2HqaNnLJdtX1v83Z1qauMVxFPfa2QCd2z7');
-  // console.log(fromTokenAccount);
-  // console.log(toTokenAccount);
-
-  // var transaction2 = new web3.Transaction().add(
-  //   Token.createSetAuthorityInstruction(
-  //     TOKEN_PROGRAM_ID,
-  //     fromTokenAccountNft.address,
-  //     toAuthor,
-  //     "AccountOwner",
-  //     destination,
-  //     []
-  //   )
-  // );
-  // // Setting the variables for the transaction
-  // transaction2.feePayer = await provider.publicKey;
-  // let blockhashObj2 = await con.getRecentBlockhash();
-  // transaction2.recentBlockhash = await blockhashObj2.blockhash;
-
-  // // Transaction constructor initialized successfully
-  // if (transaction2) {
-  //   console.log("Txn created successfully");
-  // }
-
-  // // Request creator to sign the transaction (allow the transaction)
-  // let signed2 = await provider.signTransaction(transaction2);
-  // // The signature is generated
-  // let signature2 = await con.sendRawTransaction(signed2.serialize());
-  // // Confirm whether the transaction went through or not
-  // await con.confirmTransaction(signature2);
-
   const instructions = [];
-
   instructions.push(
     Token.createTransferInstruction(
       TOKEN_PROGRAM_ID,
-      fromTokenAccount.address,
-      toTokenAccount.address,
+      fromTokenAccount.address, // Từ mình
+      toTokenAccount.address, // đến thằng kia
       publicKey,
       [],
       77777
     )
   );
+
+  var transaction = new web3.Transaction().add(...instructions);
+
+  await signedByFeePayer(transaction, provider);
+
+  await transferNftFromExchangeToBuyer(nftMintAddress, destination); // Nhận NFT từ sàn
+};
+
+const transferNftFromExchangeToBuyer = async (
+  nftMintAddress,
+  fromSeller // đến người cần được chuyển quyền
+) => {
+  const provider = await getProvider();
+  const publicKey = await provider.publicKey;
+  const nftPublicKey = new PublicKey(nftMintAddress);
+  const fromExchangeWallet = new PublicKey(
+    "FRsSE4uMSeTM8SA3iejeWWriYsdc2QnMEGuNT7ewAeQ4" // Ví sàn
+  );
+  const mintNft = new Token(
+    connection,
+    nftPublicKey,
+    TOKEN_PROGRAM_ID,
+    null // the wallet owner will pay to transfer and to create recipients associated token account if it does not yet exist.
+  );
+
+  let toAssociateTokeSellerAccount =
+    await mintNft.getOrCreateAssociatedAccountInfo(
+      fromSeller // lấy address có token
+    );
+
+  let toAssociateTokenBuyerAccount =
+    await mintNft.getOrCreateAssociatedAccountInfo(publicKey);
+
+  const instructions = [];
   instructions.push(
     Token.createTransferInstruction(
       TOKEN_PROGRAM_ID,
-      toTokenAccountNft.address,
-      fromTokenAccountNft.address,
-      publicKey,
+      toAssociateTokeSellerAccount.address, // Từ thằng bấm "Sell"
+      toAssociateTokenBuyerAccount.address, // về mình
+      fromExchangeWallet,
       [],
       1
     )
   );
+
   var transaction = new web3.Transaction().add(...instructions);
-  // Setting the variables for the transaction
+
+  await signedAndConfirmBySeed(transaction);
+
+  await setAuthorizedAccountToken(
+    fromExchangeWallet,
+    fromSeller,
+    fromSeller,
+    nftMintAddress,
+    "getBack"
+  );
+};
+
+export const setAuthorizedAccountToken = async (
+  fromCurrentAuthor, // địa chỉ ví quyền hiện tại
+  toNewAuthor, // đến người cần được chuyển quyền
+  associateAddressRoot, // địa chỉ ví người người bán NFT
+  nftMintAddress,
+  type // if 'getBack': sàn kí và confirm. else thì bình thường.
+) => {
+  const provider = await getProvider();
+  const nftPublicKey = new PublicKey(nftMintAddress);
+  const mintNft = new Token(
+    connection,
+    nftPublicKey,
+    TOKEN_PROGRAM_ID,
+    null // the wallet owner will pay to transfer and to create recipients associated token account if it does not yet exist.
+  );
+  const fromCurrentAuthorPublicKey = new PublicKey(fromCurrentAuthor);
+  const toNewAuthorPublicKey = new PublicKey(toNewAuthor);
+  const associateAddressRootPublicKey = new PublicKey(associateAddressRoot);
+
+  // get associate address root
+  let fromTokenAcountNFT = await mintNft.getOrCreateAssociatedAccountInfo(
+    associateAddressRootPublicKey
+  );
+
+  ///////////////////////////////////////// test
+
+  // let fromTestAddressPublicKey = new PublicKey('BLtsE9tgdJC6Z9tw9C8A1HirF8CuNasUHtcjDcnezCvf');
+  // let fromTestAuthor = await mintNft.getOrCreateAssociatedAccountInfo(
+  //   toNewAuthorPublicKey
+  // ); // test sàn
+
+  /////////////////////////////////////////
+  console.log("fromTokenAccountNft : ", fromTokenAcountNFT.address.toBase58());
+
+  let transaction = new web3.Transaction().add(
+    Token.createSetAuthorityInstruction(
+      TOKEN_PROGRAM_ID,
+      fromTokenAcountNFT.address, // Associate address
+      toNewAuthorPublicKey, // wallet publicKey
+      "AccountOwner",
+      fromCurrentAuthorPublicKey, // wallet publicKey
+      []
+    )
+  );
+
+  if (type === "getBack") {
+    // return NFT to NFT's owner
+    signedAndConfirmBySeed(transaction);
+  } else {
+    // send NFT to Sell
+    signedByFeePayer(transaction, provider);
+  }
+
+  localStorage.setItem("seller", associateAddressRoot);
+};
+
+const getFromSeed = () => {
+  let seed = new Uint8Array([
+    132, 174, 250, 253, 107, 233, 133, 200, 165, 202, 23, 80, 37, 183, 105, 237,
+    167, 23, 144, 134, 114, 154, 125, 85, 13, 155, 187, 56, 212, 32, 3, 140,
+    214, 98, 149, 85, 52, 123, 218, 78, 37, 132, 91, 178, 2, 86, 255, 194, 72,
+    20, 87, 114, 226, 146, 37, 144, 160, 244, 120, 119, 111, 17, 111, 213,
+  ]);
+  let accountFromSeed = Keypair.fromSecretKey(seed);
+  return accountFromSeed;
+};
+
+const signedByFeePayer = async (transaction, provider) => {
   // Setting the variables for the transaction
   transaction.feePayer = await provider.publicKey;
-  let blockhashObj = await con.getRecentBlockhash();
+  let blockhashObj = await connection.getRecentBlockhash();
   transaction.recentBlockhash = await blockhashObj.blockhash;
 
   // Transaction constructor initialized successfully
@@ -386,10 +400,14 @@ export const transferCoin2 = async () => {
   // Request creator to sign the transaction (allow the transaction)
   let signed = await provider.signTransaction(transaction);
   // The signature is generated
-  let signature = await con.sendRawTransaction(signed.serialize());
+  let signature = await connection.sendRawTransaction(signed.serialize());
   // Confirm whether the transaction went through or not
-  await con.confirmTransaction(signature);
+  await connection.confirmTransaction(signature);
+};
 
-  //Signature chhap diya idhar
-  console.log("Signature: ", signature);
+const signedAndConfirmBySeed = async (transaction) => {
+  const wallet = getFromSeed();
+  await web3.sendAndConfirmTransaction(connection, transaction, [wallet], {
+    commitment: "confirmed",
+  });
 };

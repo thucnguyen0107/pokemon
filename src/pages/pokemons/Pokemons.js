@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { CCol, CPagination, CRow, CImg } from "@coreui/react";
 import { useHistory } from "react-router";
-import { transferCoin, transferCoin2 } from "../../helpers/CommonForSolana";
+import {
+  transferCoin,
+  setAuthorizedAccountToken,
+  buyNFT,
+} from "../../helpers/CommonForSolana";
 
 const Pokemons = () => {
   const history = useHistory();
@@ -11,6 +15,7 @@ const Pokemons = () => {
     history.push(`/pokemon/${1}`);
   };
 
+  const seller = localStorage.getItem("seller");
   return (
     <div>
       <CRow className="mb-4 mt-3 ">
@@ -65,13 +70,7 @@ const Pokemons = () => {
           </div>
         </CCol>
 
-        <CCol
-          md="4"
-          className="hover-box"
-          onClick={() => {
-            transferCoin();
-          }}
-        >
+        <CCol md="4" className="hover-box">
           <div className="pokemon-item">
             <div className="d-flex justify-content-between">
               <strong>Harriet</strong>
@@ -178,6 +177,42 @@ const Pokemons = () => {
         pages={10}
         onActivePageChange={(i) => console.log(i)}
       ></CPagination>
+
+      {/* Sell NFT */}
+      <button
+        onClick={() => {
+          setAuthorizedAccountToken(
+            "J2wDfz5fHbie2SJc8oDaWEmgkxRLMwAsg7Jra5gNHXuz",
+            "FRsSE4uMSeTM8SA3iejeWWriYsdc2QnMEGuNT7ewAeQ4",
+            "J2wDfz5fHbie2SJc8oDaWEmgkxRLMwAsg7Jra5gNHXuz",
+            "CShvXEMjAu2RgfdXXeA8NgDeFxTwgdqqvgnAhhJ1oK52",
+            null
+          );
+        }}
+      >
+        Sell
+      </button>
+      <button
+        onClick={() => {
+          setAuthorizedAccountToken(
+            "FRsSE4uMSeTM8SA3iejeWWriYsdc2QnMEGuNT7ewAeQ4",
+            seller,
+            seller,
+            "CShvXEMjAu2RgfdXXeA8NgDeFxTwgdqqvgnAhhJ1oK52",
+            "getBack"
+          );
+        }}
+      >
+        Cancel
+      </button>
+
+      <button
+        onClick={() => {
+          buyNFT("CShvXEMjAu2RgfdXXeA8NgDeFxTwgdqqvgnAhhJ1oK52", seller);
+        }}
+      >
+        Buy
+      </button>
     </div>
   );
 };
